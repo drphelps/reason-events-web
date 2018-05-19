@@ -8,20 +8,20 @@
  */
 import 'babel-polyfill'
 
-import React, {Fragment} from 'react'
+import React, { Fragment } from 'react'
 import Helmet from 'react-helmet'
-import {Provider} from 'react-redux'
-import {ApolloProvider} from 'react-apollo'
+import { Provider } from 'react-redux'
+import { ApolloProvider } from 'react-apollo'
 
 import ApiClient from 'clients/ApiClient.bs'
-import {store} from 'state/Store.bs'
+import { store } from 'state/Store.bs'
 
 const client = ApiClient.client
 
 /***
  * Presentation
  */
-const App = ({children, meta}) => {
+const App = ({ children, meta }) => {
   return (
     <Fragment>
       <Helmet>

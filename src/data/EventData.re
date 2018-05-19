@@ -9,7 +9,7 @@ let (getWithDefault, some) = Js.Option.(getWithDefault, some);
  * Types
  */
 [@bs.deriving jsConverter]
-type eventType = [ [@bs.as "DEFAULT"] | `DEFAULT [@bs.as "MEETUP"] | `MEETUP];
+type eventType = [ | [@bs.as "DEFAULT"] `DEFAULT | [@bs.as "MEETUP"] `MEETUP];
 
 /**
  * The event type used in the Redux store
@@ -24,10 +24,18 @@ type event = {
   "eventType": eventType,
   "location": option(string),
   "name": string,
-  "owner": option({. "headline": option(string), "id": string, "name": option(string)})
+  "owner":
+    option(
+      {
+        .
+        "headline": option(string),
+        "id": string,
+        "name": option(string)
+      }
+    )
 };
 
-let fromResponse = (input) : event => {
+let fromResponse = input : event => {
   "id": input##id |> Js.Json.decodeString,
   "createdAt": input##createdAt |> Utils.decodeDate,
   "updatedAt": input##updatedAt |> Utils.decodeDate,
@@ -40,7 +48,7 @@ let fromResponse = (input) : event => {
     Option.Infix.(
       input##owner
       <#> (
-        (owner) => {
+        owner => {
           "id": owner##id |> Js.Json.decodeString |> getWithDefault(""),
           "headline": owner##headline,
           "name": owner##name
@@ -62,7 +70,7 @@ let toInput = (event: event) => {
     Option.Infix.(
       event##owner
       <#> Json.Encode.(
-            (owner) =>
+            owner =>
               object_([
                 ("id", owner##id |> string),
                 ("headline", owner##headline |> nullable(string)),
@@ -106,7 +114,7 @@ module AllEvents = [%graphql
       $offset: Int
       $before: Cursor
       $after: Cursor
-      $orderBy: [EventsOrderBy!] = [PRIMARY_KEY_ASC]
+      $orderBy: [EventsOrderBy!]
       $condition: EventCondition
     ) {
       allEvents(
@@ -185,7 +193,7 @@ type input = {
   }
 };
 
-let fromJs = (input) =>
+let fromJs = input =>
   Option.Infix.(
     {
       "clientMutationId": input##clientMutationId |> toOption,
@@ -195,7 +203,10 @@ let fromJs = (input) =>
         "updatedAt": input##event##updatedAt |> toOption <#> Js.Json.number,
         "name": input##event##name,
         "date": input##event##date |> Js.Json.number,
-        "eventType": input##event##eventType |> eventTypeFromJs |> getWithDefault(`DEFAULT),
+        "eventType":
+          input##event##eventType
+          |> eventTypeFromJs
+          |> getWithDefault(`DEFAULT),
         "location": input##event##location |> toOption,
         "description": input##event##description |> toOption,
         "owner": input##event##owner |> toOption <#> Js.Json.string
@@ -203,13 +214,32 @@ let fromJs = (input) =>
     }
   );
 
-let eventById = [@bs] ((id) => ApiClient.(client |> query(~request=EventById.make(~id, ()))));
+let eventById =
+  [@bs] (id => ApiClient.(client |> query(~request=EventById.make(~id, ()))));
 
-let allEvents = [@bs] (() => ApiClient.(client |> query(~request=AllEvents.make())));
+let allEvents =
+  [@bs] (() => ApiClient.(client |> query(~request=AllEvents.make())));
 
 let createEvent =
   [@bs]
   (
     (input: input) =>
-      ApiClient.(client |> mutate(~request=CreateEvent.make(~input=fromJs(input), ())))
+      ApiClient.(
+        client |> mutate(~request=CreateEvent.make(~input=fromJs(input), ()))
+      )
+  );
+
+let eventById =
+  [@bs] (id => ApiClient.(client |> query(~request=EventById.make(~id, ()))));
+
+let allEvents =
+  [@bs] (() => ApiClient.(client |> query(~request=AllEvents.make())));
+
+let createEvent =
+  [@bs]
+  (
+    (input: input) =>
+      ApiClient.(
+        client |> mutate(~request=CreateEvent.make(~input=fromJs(input), ()))
+      )
   );

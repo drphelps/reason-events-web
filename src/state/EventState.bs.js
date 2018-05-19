@@ -5,7 +5,7 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var ApiClient = require("../clients/ApiClient.bs.js");
 var EventData = require("../data/EventData.bs.js");
 var Js_option = require("bs-platform/lib/js/js_option.js");
-var MnstrUtils = require("@ecliptic/mnstr-core/src/MnstrUtils.bs.js");
+var MnstrUtils = require("@dphunkt/mnstr-core/src/MnstrUtils.bs.js");
 var StateTypes = require("./StateTypes.bs.js");
 var Option$BsAbstract = require("bs-abstract/src/implementations/Option.bs.js");
 

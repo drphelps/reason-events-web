@@ -1,5 +1,8 @@
 let getEnvVar = (key, fallback) =>
-  Js.Option.getWithDefault(fallback, Js.Dict.get([%bs.raw {|process.env|}], key));
+  Js.Option.getWithDefault(
+    fallback,
+    Js.Dict.get([%bs.raw {|process.env|}], key)
+  );
 
 module Env = {
   let isDev = getEnvVar("NODE_ENV", "production") === "development";

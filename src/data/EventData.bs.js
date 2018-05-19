@@ -312,7 +312,7 @@ var EventById = /* module */[
 
 var Graphql_error$1 = Caml_exceptions.create("EventData.AllEvents.Graphql_error");
 
-var query$1 = "query AllEvents($first: Int, $last: Int, $offset: Int, $before: Cursor, $after: Cursor, $orderBy: [EventsOrderBy!] = [PRIMARY_KEY_ASC], $condition: EventCondition)  {\nallEvents(first: $first, last: $last, offset: $offset, before: $before, after: $after, orderBy: $orderBy, condition: $condition)  {\nedges  {\nnode  {\nid  \ncreatedAt  \nupdatedAt  \nname  \ndate  \neventType  \nlocation  \ndescription  \nowner: userByOwner  {\nid  \nname  \nheadline  \n}\n}\n}\n}\n}";
+var query$1 = "query AllEvents($first: Int, $last: Int, $offset: Int, $before: Cursor, $after: Cursor, $orderBy: [EventsOrderBy!], $condition: EventCondition)  {\nallEvents(first: $first, last: $last, offset: $offset, before: $before, after: $after, orderBy: $orderBy, condition: $condition)  {\nedges  {\nnode  {\nid  \ncreatedAt  \nupdatedAt  \nname  \ndate  \neventType  \nlocation  \ndescription  \nowner: userByOwner  {\nid  \nname  \nheadline  \n}\n}\n}\n}\n}";
 
 function parse$1(value) {
   var match = Js_json.decodeObject(value);

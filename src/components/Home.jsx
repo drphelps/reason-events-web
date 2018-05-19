@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
 import moment from 'moment'
-import {connect} from 'react-redux'
-import {css} from 'glamor'
+import { connect } from 'react-redux'
+import { css } from 'glamor'
 
 import * as EventState from 'state/EventState.bs'
 
@@ -55,38 +55,38 @@ const initialState = {
 class Home extends React.Component {
   state = initialState
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.refreshEvents()
   }
 
   toggleNewEvent = (e) => {
     if (e) e.preventDefault()
-    const {visible} = this.state
-    this.setState({visible: {...visible, newEvent: !visible.newEvent}})
+    const { visible } = this.state
+    this.setState({ visible: { ...visible, newEvent: !visible.newEvent } })
   }
 
   handleCancelNewEvent = (e) => {
     e.preventDefault()
-    this.setState({newEvent: initialState.newEvent})
+    this.setState({ newEvent: initialState.newEvent })
     this.toggleNewEvent()
   }
 
-  handleChangeField = (field) => ({target: {value}}) => {
-    this.setState({newEvent: {...this.state.newEvent, [field]: value}})
+  handleChangeField = (field) => ({ target: { value } }) => {
+    this.setState({ newEvent: { ...this.state.newEvent, [field]: value } })
   }
 
   handleSubmitNewEvent = (e) => {
-    const {createEvent} = this.props
-    const {visible, newEvent} = this.state
+    const { createEvent } = this.props
+    const { visible, newEvent } = this.state
     e.preventDefault()
     createEvent(newEvent)
-    this.setState({visible: {...visible, newEvent: false}})
+    this.setState({ visible: { ...visible, newEvent: false } })
   }
 
-  render () {
-    const {events} = this.props
-    const {visible, newEvent} = this.state
-    const {name, date, location, description} = newEvent
+  render() {
+    const { events } = this.props
+    const { visible, newEvent } = this.state
+    const { name, date, location, description } = newEvent
     return (
       <div className={Styles.container.toString()}>
         <Card display-if={visible.newEvent} className={Styles.card.toString()}>
@@ -136,7 +136,7 @@ class Home extends React.Component {
           onClick={this.toggleNewEvent}
           raised
         >
-          Create a New Event
+          Create a New Events
         </Button>
         <div>
           <GridList twoLineCaption>

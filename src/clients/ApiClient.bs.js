@@ -2,8 +2,8 @@
 'use strict';
 
 var Config = require("../Config.bs.js");
-var MnstrClient = require("@ecliptic/mnstr-client/src/MnstrClient.bs.js");
-var MnstrClientBrowser = require("@ecliptic/mnstr-client/src/MnstrClientBrowser.bs.js");
+var MnstrClient = require("@dphunkt/mnstr-client/src/MnstrClient.bs.js");
+var MnstrClientBrowser = require("@dphunkt/mnstr-client/src/MnstrClientBrowser.bs.js");
 
 var match = Config.Env[/* isDev */0];
 
