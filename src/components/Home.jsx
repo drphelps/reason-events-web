@@ -136,7 +136,7 @@ class Home extends React.Component {
           onClick={this.toggleNewEvent}
           raised
         >
-          Create a New Events
+          Create a New Event
         </Button>
         <div>
           <GridList twoLineCaption>

@@ -53,7 +53,7 @@ function fromResponse(input) {
           owner: Curry._2(Option$BsAbstract.Infix[/* <#> */4], input.owner, (function (owner) {
                   return {
                           id: Js_option.getWithDefault("", Js_json.decodeString(owner.id)),
-                          headline: owner.headline,
+                          email: owner.email,
                           name: owner.name
                         };
                 }))
@@ -80,10 +80,8 @@ function toInput($$event) {
                               ],
                               /* :: */[
                                 /* tuple */[
-                                  "headline",
-                                  Json_encode.nullable((function (prim) {
-                                          return prim;
-                                        }), owner.headline)
+                                  "email",
+                                  owner.email
                                 ],
                                 /* :: */[
                                   /* tuple */[
@@ -102,7 +100,7 @@ function toInput($$event) {
 
 var Graphql_error = Caml_exceptions.create("EventData.EventById.Graphql_error");
 
-var query = "query EventById($id: UUID!)  {\neventById(id: $id)  {\nid  \ncreatedAt  \nupdatedAt  \nname  \ndate  \neventType  \nlocation  \ndescription  \nowner: userByOwner  {\nid  \nname  \nheadline  \n}\n}\n}";
+var query = "query EventById($id: UUID!)  {\neventById(id: $id)  {\nid  \ncreatedAt  \nupdatedAt  \nname  \ndate  \neventType  \nlocation  \ndescription  \nowner: userByOwner  {\nid  \nname  \nemail  \n}\n}\n}";
 
 function parse(value) {
   var match = Js_json.decodeObject(value);
@@ -197,7 +195,7 @@ function parse(value) {
               }
               tmp$10 = /* Some */[tmp$11];
             }
-            var value$10 = value$8["headline"];
+            var value$10 = value$8["email"];
             var match$13 = Js_json.decodeNull(value$10);
             var tmp$12;
             if (match$13) {
@@ -215,7 +213,7 @@ function parse(value) {
             tmp$9 = {
               id: value$8["id"],
               name: tmp$10,
-              headline: tmp$12
+              email: tmp$12
             };
           } else {
             throw Graphql_error;
@@ -312,7 +310,7 @@ var EventById = /* module */[
 
 var Graphql_error$1 = Caml_exceptions.create("EventData.AllEvents.Graphql_error");
 
-var query$1 = "query AllEvents($first: Int, $last: Int, $offset: Int, $before: Cursor, $after: Cursor, $orderBy: [EventsOrderBy!], $condition: EventCondition)  {\nallEvents(first: $first, last: $last, offset: $offset, before: $before, after: $after, orderBy: $orderBy, condition: $condition)  {\nedges  {\nnode  {\nid  \ncreatedAt  \nupdatedAt  \nname  \ndate  \neventType  \nlocation  \ndescription  \nowner: userByOwner  {\nid  \nname  \nheadline  \n}\n}\n}\n}\n}";
+var query$1 = "query AllEvents($first: Int, $last: Int, $offset: Int, $before: Cursor, $after: Cursor, $orderBy: [EventsOrderBy!], $condition: EventCondition)  {\nallEvents(first: $first, last: $last, offset: $offset, before: $before, after: $after, orderBy: $orderBy, condition: $condition)  {\nedges  {\nnode  {\nid  \ncreatedAt  \nupdatedAt  \nname  \ndate  \neventType  \nlocation  \ndescription  \nowner: userByOwner  {\nid  \nname  \nemail  \n}\n}\n}\n}\n}";
 
 function parse$1(value) {
   var match = Js_json.decodeObject(value);
@@ -334,128 +332,135 @@ function parse$1(value) {
                   var match = Js_json.decodeObject(value);
                   if (match) {
                     var value$1 = match[0]["node"];
-                    var match$1 = Js_json.decodeObject(value$1);
+                    var match$1 = Js_json.decodeNull(value$1);
                     var tmp;
                     if (match$1) {
-                      var value$2 = match$1[0];
-                      var value$3 = value$2["name"];
-                      var match$2 = Js_json.decodeString(value$3);
+                      tmp = /* None */0;
+                    } else {
+                      var match$2 = Js_json.decodeObject(value$1);
                       var tmp$1;
                       if (match$2) {
-                        tmp$1 = match$2[0];
-                      } else {
-                        throw Graphql_error$1;
-                      }
-                      var value$4 = value$2["eventType"];
-                      var match$3 = Js_json.decodeString(value$4);
-                      var tmp$2;
-                      if (match$3) {
-                        switch (match$3[0]) {
-                          case "DEFAULT" : 
-                              tmp$2 = /* DEFAULT */462924961;
-                              break;
-                          case "MEETUP" : 
-                              tmp$2 = /* MEETUP */838635490;
-                              break;
-                          default:
-                            throw Graphql_error$1;
+                        var value$2 = match$2[0];
+                        var value$3 = value$2["name"];
+                        var match$3 = Js_json.decodeString(value$3);
+                        var tmp$2;
+                        if (match$3) {
+                          tmp$2 = match$3[0];
+                        } else {
+                          throw Graphql_error$1;
                         }
-                      } else {
-                        throw Graphql_error$1;
-                      }
-                      var value$5 = value$2["location"];
-                      var match$4 = Js_json.decodeNull(value$5);
-                      var tmp$3;
-                      if (match$4) {
-                        tmp$3 = /* None */0;
-                      } else {
-                        var match$5 = Js_json.decodeString(value$5);
+                        var value$4 = value$2["eventType"];
+                        var match$4 = Js_json.decodeString(value$4);
+                        var tmp$3;
+                        if (match$4) {
+                          switch (match$4[0]) {
+                            case "DEFAULT" : 
+                                tmp$3 = /* DEFAULT */462924961;
+                                break;
+                            case "MEETUP" : 
+                                tmp$3 = /* MEETUP */838635490;
+                                break;
+                            default:
+                              throw Graphql_error$1;
+                          }
+                        } else {
+                          throw Graphql_error$1;
+                        }
+                        var value$5 = value$2["location"];
+                        var match$5 = Js_json.decodeNull(value$5);
                         var tmp$4;
                         if (match$5) {
-                          tmp$4 = match$5[0];
+                          tmp$4 = /* None */0;
                         } else {
-                          throw Graphql_error$1;
+                          var match$6 = Js_json.decodeString(value$5);
+                          var tmp$5;
+                          if (match$6) {
+                            tmp$5 = match$6[0];
+                          } else {
+                            throw Graphql_error$1;
+                          }
+                          tmp$4 = /* Some */[tmp$5];
                         }
-                        tmp$3 = /* Some */[tmp$4];
-                      }
-                      var value$6 = value$2["description"];
-                      var match$6 = Js_json.decodeNull(value$6);
-                      var tmp$5;
-                      if (match$6) {
-                        tmp$5 = /* None */0;
-                      } else {
-                        var match$7 = Js_json.decodeString(value$6);
+                        var value$6 = value$2["description"];
+                        var match$7 = Js_json.decodeNull(value$6);
                         var tmp$6;
                         if (match$7) {
-                          tmp$6 = match$7[0];
+                          tmp$6 = /* None */0;
                         } else {
-                          throw Graphql_error$1;
+                          var match$8 = Js_json.decodeString(value$6);
+                          var tmp$7;
+                          if (match$8) {
+                            tmp$7 = match$8[0];
+                          } else {
+                            throw Graphql_error$1;
+                          }
+                          tmp$6 = /* Some */[tmp$7];
                         }
-                        tmp$5 = /* Some */[tmp$6];
-                      }
-                      var value$7 = value$2["owner"];
-                      var match$8 = Js_json.decodeNull(value$7);
-                      var tmp$7;
-                      if (match$8) {
-                        tmp$7 = /* None */0;
-                      } else {
-                        var match$9 = Js_json.decodeObject(value$7);
+                        var value$7 = value$2["owner"];
+                        var match$9 = Js_json.decodeNull(value$7);
                         var tmp$8;
                         if (match$9) {
-                          var value$8 = match$9[0];
-                          var value$9 = value$8["name"];
-                          var match$10 = Js_json.decodeNull(value$9);
+                          tmp$8 = /* None */0;
+                        } else {
+                          var match$10 = Js_json.decodeObject(value$7);
                           var tmp$9;
                           if (match$10) {
-                            tmp$9 = /* None */0;
-                          } else {
-                            var match$11 = Js_json.decodeString(value$9);
+                            var value$8 = match$10[0];
+                            var value$9 = value$8["name"];
+                            var match$11 = Js_json.decodeNull(value$9);
                             var tmp$10;
                             if (match$11) {
-                              tmp$10 = match$11[0];
+                              tmp$10 = /* None */0;
                             } else {
-                              throw Graphql_error$1;
+                              var match$12 = Js_json.decodeString(value$9);
+                              var tmp$11;
+                              if (match$12) {
+                                tmp$11 = match$12[0];
+                              } else {
+                                throw Graphql_error$1;
+                              }
+                              tmp$10 = /* Some */[tmp$11];
                             }
-                            tmp$9 = /* Some */[tmp$10];
-                          }
-                          var value$10 = value$8["headline"];
-                          var match$12 = Js_json.decodeNull(value$10);
-                          var tmp$11;
-                          if (match$12) {
-                            tmp$11 = /* None */0;
-                          } else {
-                            var match$13 = Js_json.decodeString(value$10);
+                            var value$10 = value$8["email"];
+                            var match$13 = Js_json.decodeNull(value$10);
                             var tmp$12;
                             if (match$13) {
-                              tmp$12 = match$13[0];
+                              tmp$12 = /* None */0;
                             } else {
-                              throw Graphql_error$1;
+                              var match$14 = Js_json.decodeString(value$10);
+                              var tmp$13;
+                              if (match$14) {
+                                tmp$13 = match$14[0];
+                              } else {
+                                throw Graphql_error$1;
+                              }
+                              tmp$12 = /* Some */[tmp$13];
                             }
-                            tmp$11 = /* Some */[tmp$12];
+                            tmp$9 = {
+                              id: value$8["id"],
+                              name: tmp$10,
+                              email: tmp$12
+                            };
+                          } else {
+                            throw Graphql_error$1;
                           }
-                          tmp$8 = {
-                            id: value$8["id"],
-                            name: tmp$9,
-                            headline: tmp$11
-                          };
-                        } else {
-                          throw Graphql_error$1;
+                          tmp$8 = /* Some */[tmp$9];
                         }
-                        tmp$7 = /* Some */[tmp$8];
+                        tmp$1 = {
+                          id: value$2["id"],
+                          createdAt: value$2["createdAt"],
+                          updatedAt: value$2["updatedAt"],
+                          name: tmp$2,
+                          date: value$2["date"],
+                          eventType: tmp$3,
+                          location: tmp$4,
+                          description: tmp$6,
+                          owner: tmp$8
+                        };
+                      } else {
+                        throw Graphql_error$1;
                       }
-                      tmp = {
-                        id: value$2["id"],
-                        createdAt: value$2["createdAt"],
-                        updatedAt: value$2["updatedAt"],
-                        name: tmp$1,
-                        date: value$2["date"],
-                        eventType: tmp$2,
-                        location: tmp$3,
-                        description: tmp$5,
-                        owner: tmp$7
-                      };
-                    } else {
-                      throw Graphql_error$1;
+                      tmp = /* Some */[tmp$1];
                     }
                     return {
                             node: tmp
@@ -782,7 +787,7 @@ var AllEvents = /* module */[
 
 var Graphql_error$2 = Caml_exceptions.create("EventData.CreateEvent.Graphql_error");
 
-var query$2 = "mutation CreateEvent($input: CreateEventInput!)  {\ncreateEvent(input: $input)  {\nevent  {\nid  \ncreatedAt  \nupdatedAt  \nname  \ndate  \neventType  \nlocation  \ndescription  \nowner: userByOwner  {\nid  \nname  \nheadline  \n}\n}\n}\n}";
+var query$2 = "mutation CreateEvent($input: CreateEventInput!)  {\ncreateEvent(input: $input)  {\nevent  {\nid  \ncreatedAt  \nupdatedAt  \nname  \ndate  \neventType  \nlocation  \ndescription  \nowner: userByOwner  {\nid  \nname  \nemail  \n}\n}\n}\n}";
 
 function parse$2(value) {
   var match = Js_json.decodeObject(value);
@@ -886,7 +891,7 @@ function parse$2(value) {
                   }
                   tmp$12 = /* Some */[tmp$13];
                 }
-                var value$11 = value$9["headline"];
+                var value$11 = value$9["email"];
                 var match$15 = Js_json.decodeNull(value$11);
                 var tmp$14;
                 if (match$15) {
@@ -904,7 +909,7 @@ function parse$2(value) {
                 tmp$11 = {
                   id: value$9["id"],
                   name: tmp$12,
-                  headline: tmp$14
+                  email: tmp$14
                 };
               } else {
                 throw Graphql_error$2;

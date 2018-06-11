@@ -28,8 +28,8 @@ type event = {
     option(
       {
         .
-        "headline": option(string),
         "id": string,
+        "email": string,
         "name": option(string)
       }
     )
@@ -50,7 +50,7 @@ let fromResponse = input : event => {
       <#> (
         owner => {
           "id": owner##id |> Js.Json.decodeString |> getWithDefault(""),
-          "headline": owner##headline,
+          "email": owner##email,
           "name": owner##name
         }
       )
@@ -73,7 +73,7 @@ let toInput = (event: event) => {
             owner =>
               object_([
                 ("id", owner##id |> string),
-                ("headline", owner##headline |> nullable(string)),
+                ("email", owner##email |> string),
                 ("name", owner##name |> nullable(string))
               ])
           )
@@ -99,7 +99,7 @@ module EventById = [%graphql
         owner: userByOwner {
           id
           name
-          headline
+          email
         }
       }
     }
@@ -139,7 +139,7 @@ module AllEvents = [%graphql
             owner: userByOwner {
               id
               name
-              headline
+              email
             }
           }
         }
@@ -164,7 +164,7 @@ module CreateEvent = [%graphql
           owner: userByOwner {
             id
             name
-            headline
+            email
           }
         }
       }
@@ -212,21 +212,6 @@ let fromJs = input =>
         "owner": input##event##owner |> toOption <#> Js.Json.string
       }
     }
-  );
-
-let eventById =
-  [@bs] (id => ApiClient.(client |> query(~request=EventById.make(~id, ()))));
-
-let allEvents =
-  [@bs] (() => ApiClient.(client |> query(~request=AllEvents.make())));
-
-let createEvent =
-  [@bs]
-  (
-    (input: input) =>
-      ApiClient.(
-        client |> mutate(~request=CreateEvent.make(~input=fromJs(input), ()))
-      )
   );
 
 let eventById =

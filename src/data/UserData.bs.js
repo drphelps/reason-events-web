@@ -6,14 +6,41 @@ var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Js_json = require("bs-platform/lib/js/js_json.js");
 var ApiClient = require("../clients/ApiClient.bs.js");
 var Js_option = require("bs-platform/lib/js/js_option.js");
+var Js_primitive = require("bs-platform/lib/js/js_primitive.js");
 var Caml_exceptions = require("bs-platform/lib/js/caml_exceptions.js");
+var Option$BsAbstract = require("bs-abstract/src/implementations/Option.bs.js");
+
+function toOption(prim) {
+  if (prim == null) {
+    return /* None */0;
+  } else {
+    return [prim];
+  }
+}
+
+function fromJs(input) {
+  return {
+          clientMutationId: Js_primitive.null_undefined_to_opt(input.clientMutationId),
+          user: {
+            id: Curry._2(Option$BsAbstract.Infix[/* <#> */4], Js_primitive.null_undefined_to_opt(input.user.id), (function (prim) {
+                    return prim;
+                  })),
+            createdAt: Curry._2(Option$BsAbstract.Infix[/* <#> */4], Js_primitive.null_undefined_to_opt(input.user.createdAt), (function (prim) {
+                    return prim;
+                  })),
+            updatedAt: Curry._2(Option$BsAbstract.Infix[/* <#> */4], Js_primitive.null_undefined_to_opt(input.user.updatedAt), (function (prim) {
+                    return prim;
+                  })),
+            name: input.user.name,
+            email: input.user.email
+          }
+        };
+}
 
 function fromResponse(input) {
   return {
           id: Js_option.getWithDefault("", Js_json.decodeString(input.id)),
           email: input.email,
-          headline: input.headline,
-          mailingList: input.mailingList,
           name: input.name
         };
 }
@@ -22,15 +49,13 @@ function toInput(user) {
   return {
           id: Js_option.some(user.id),
           email: user.email,
-          headline: user.headline,
-          mailingList: user.mailingList,
           name: user.name
         };
 }
 
 var Graphql_error = Caml_exceptions.create("UserData.UserById.Graphql_error");
 
-var query = "query UserById($id: UUID!)  {\nuserById(id: $id)  {\nid  \nname  \nemail  \nheadline  \nmailingList  \n}\n}";
+var query = "query UserById($id: UUID!)  {\nuserById(id: $id)  {\nid  \nname  \nemail  \n}\n}";
 
 function parse(value) {
   var match = Js_json.decodeObject(value);
@@ -75,42 +100,10 @@ function parse(value) {
           }
           tmp$4 = /* Some */[tmp$5];
         }
-        var value$5 = value$2["headline"];
-        var match$7 = Js_json.decodeNull(value$5);
-        var tmp$6;
-        if (match$7) {
-          tmp$6 = /* None */0;
-        } else {
-          var match$8 = Js_json.decodeString(value$5);
-          var tmp$7;
-          if (match$8) {
-            tmp$7 = match$8[0];
-          } else {
-            throw Graphql_error;
-          }
-          tmp$6 = /* Some */[tmp$7];
-        }
-        var value$6 = value$2["mailingList"];
-        var match$9 = Js_json.decodeNull(value$6);
-        var tmp$8;
-        if (match$9) {
-          tmp$8 = /* None */0;
-        } else {
-          var match$10 = Js_json.decodeBoolean(value$6);
-          var tmp$9;
-          if (match$10) {
-            tmp$9 = match$10[0];
-          } else {
-            throw Graphql_error;
-          }
-          tmp$8 = /* Some */[tmp$9];
-        }
         tmp$1 = {
           id: value$2["id"],
           name: tmp$2,
-          email: tmp$4,
-          headline: tmp$6,
-          mailingList: tmp$8
+          email: tmp$4
         };
       } else {
         throw Graphql_error;
@@ -189,6 +182,214 @@ var UserById = /* module */[
   /* MT_Ret */MT_Ret
 ];
 
+var Graphql_error$1 = Caml_exceptions.create("UserData.CreateUser.Graphql_error");
+
+var query$1 = "mutation CreateUser($input: CreateUserInput!)  {\ncreateUser(input: $input)  {\nuser  {\nid  \nname  \nemail  \n}\n}\n}";
+
+function parse$1(value) {
+  var match = Js_json.decodeObject(value);
+  if (match) {
+    var value$1 = match[0]["createUser"];
+    var match$1 = Js_json.decodeNull(value$1);
+    var tmp;
+    if (match$1) {
+      tmp = /* None */0;
+    } else {
+      var match$2 = Js_json.decodeObject(value$1);
+      var tmp$1;
+      if (match$2) {
+        var value$2 = match$2[0]["user"];
+        var match$3 = Js_json.decodeNull(value$2);
+        var tmp$2;
+        if (match$3) {
+          tmp$2 = /* None */0;
+        } else {
+          var match$4 = Js_json.decodeObject(value$2);
+          var tmp$3;
+          if (match$4) {
+            var value$3 = match$4[0];
+            var value$4 = value$3["name"];
+            var match$5 = Js_json.decodeNull(value$4);
+            var tmp$4;
+            if (match$5) {
+              tmp$4 = /* None */0;
+            } else {
+              var match$6 = Js_json.decodeString(value$4);
+              var tmp$5;
+              if (match$6) {
+                tmp$5 = match$6[0];
+              } else {
+                throw Graphql_error$1;
+              }
+              tmp$4 = /* Some */[tmp$5];
+            }
+            var value$5 = value$3["email"];
+            var match$7 = Js_json.decodeNull(value$5);
+            var tmp$6;
+            if (match$7) {
+              tmp$6 = /* None */0;
+            } else {
+              var match$8 = Js_json.decodeString(value$5);
+              var tmp$7;
+              if (match$8) {
+                tmp$7 = match$8[0];
+              } else {
+                throw Graphql_error$1;
+              }
+              tmp$6 = /* Some */[tmp$7];
+            }
+            tmp$3 = {
+              id: value$3["id"],
+              name: tmp$4,
+              email: tmp$6
+            };
+          } else {
+            throw Graphql_error$1;
+          }
+          tmp$2 = /* Some */[tmp$3];
+        }
+        tmp$1 = {
+          user: tmp$2
+        };
+      } else {
+        throw Graphql_error$1;
+      }
+      tmp = /* Some */[tmp$1];
+    }
+    return {
+            createUser: tmp
+          };
+  } else {
+    throw Graphql_error$1;
+  }
+}
+
+function json_of_optional$1(encoder, value) {
+  if (value) {
+    return Curry._1(encoder, value[0]);
+  } else {
+    return null;
+  }
+}
+
+function json_of_Datetime(value) {
+  return value;
+}
+
+function json_of_UUID$1(value) {
+  return value;
+}
+
+function json_of_String(value) {
+  return value;
+}
+
+function json_of_UserInput(value) {
+  return Js_dict.fromList(/* :: */[
+              /* tuple */[
+                "id",
+                json_of_optional$1(json_of_UUID$1, value.id)
+              ],
+              /* :: */[
+                /* tuple */[
+                  "createdAt",
+                  json_of_optional$1(json_of_Datetime, value.createdAt)
+                ],
+                /* :: */[
+                  /* tuple */[
+                    "updatedAt",
+                    json_of_optional$1(json_of_Datetime, value.updatedAt)
+                  ],
+                  /* :: */[
+                    /* tuple */[
+                      "name",
+                      json_of_optional$1(json_of_String, value.name)
+                    ],
+                    /* :: */[
+                      /* tuple */[
+                        "email",
+                        json_of_optional$1(json_of_String, value.email)
+                      ],
+                      /* [] */0
+                    ]
+                  ]
+                ]
+              ]
+            ]);
+}
+
+function json_of_array$1(encoder, value) {
+  return value.map(Curry.__1(encoder));
+}
+
+function json_of_CreateUserInput(value) {
+  return Js_dict.fromList(/* :: */[
+              /* tuple */[
+                "clientMutationId",
+                json_of_optional$1(json_of_String, value.clientMutationId)
+              ],
+              /* :: */[
+                /* tuple */[
+                  "user",
+                  json_of_UserInput(value.user)
+                ],
+                /* [] */0
+              ]
+            ]);
+}
+
+function make$1(input, _) {
+  return {
+          query: query$1,
+          variables: Js_dict.fromList(/* :: */[
+                /* tuple */[
+                  "input",
+                  json_of_CreateUserInput(input)
+                ],
+                /* [] */0
+              ]),
+          parse: parse$1
+        };
+}
+
+function makeWithVariables$1(variables) {
+  var input = variables.input;
+  return {
+          query: query$1,
+          variables: Js_dict.fromList(/* :: */[
+                /* tuple */[
+                  "input",
+                  json_of_CreateUserInput(input)
+                ],
+                /* [] */0
+              ]),
+          parse: parse$1
+        };
+}
+
+function ret_type$1() {
+  return /* module */[];
+}
+
+var MT_Ret$1 = /* module */[];
+
+var CreateUser = /* module */[
+  /* Graphql_error */Graphql_error$1,
+  /* query */query$1,
+  /* parse */parse$1,
+  /* json_of_optional */json_of_optional$1,
+  /* json_of_array */json_of_array$1,
+  /* json_of_UserInput */json_of_UserInput,
+  /* json_of_UUID */json_of_UUID$1,
+  /* json_of_String */json_of_String,
+  /* json_of_Datetime */json_of_Datetime,
+  /* json_of_CreateUserInput */json_of_CreateUserInput,
+  /* make */make$1,
+  /* makeWithVariables */makeWithVariables$1,
+  /* ret_type */ret_type$1,
+  /* MT_Ret */MT_Ret$1
+];
+
 function userById(id) {
   var arg = make(id, /* () */0);
   return (function (eta) {
@@ -196,14 +397,25 @@ function userById(id) {
             })(ApiClient.client);
 }
 
+function createUser(input) {
+  var arg = make$1(fromJs(input), /* () */0);
+  return (function (eta) {
+              return ApiClient.mutate(/* None */0, arg, eta);
+            })(ApiClient.client);
+}
+
 var getWithDefault = Js_option.getWithDefault;
 
 var some = Js_option.some;
 
+exports.toOption = toOption;
 exports.getWithDefault = getWithDefault;
 exports.some = some;
+exports.fromJs = fromJs;
 exports.fromResponse = fromResponse;
 exports.toInput = toInput;
 exports.UserById = UserById;
+exports.CreateUser = CreateUser;
 exports.userById = userById;
+exports.createUser = createUser;
 /* Js_dict Not a pure module */

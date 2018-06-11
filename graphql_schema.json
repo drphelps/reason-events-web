@@ -1006,30 +1006,6 @@
               "deprecationReason": null
             },
             {
-              "name": "headline",
-              "description": "A headline introducing the User at a glance.",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "mailingList",
-              "description": "Whether the User wants to join the mailing list.",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "eventsByOwner",
               "description": "Reads and enables pagination through a set of `Event`.",
               "args": [
@@ -1131,16 +1107,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "SCALAR",
-          "name": "Boolean",
-          "description": "The `Boolean` scalar type represents `true` or `false`.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
           "kind": "OBJECT",
           "name": "EventsEdge",
           "description": "A `Event` edge in the connection.",
@@ -1162,13 +1128,9 @@
               "description": "The `Event` at the end of the edge.",
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Event",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1247,6 +1209,16 @@
           "possibleTypes": null
         },
         {
+          "kind": "SCALAR",
+          "name": "Boolean",
+          "description": "The `Boolean` scalar type represents `true` or `false`.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "ENUM",
           "name": "UsersOrderBy",
           "description": "Methods to use when ordering `User`.",
@@ -1319,30 +1291,6 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "HEADLINE_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "HEADLINE_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "MAILING_LIST_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "MAILING_LIST_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -1399,26 +1347,6 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "headline",
-              "description": "Checks for equality with the object’s `headline` field.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "mailingList",
-              "description": "Checks for equality with the object’s `mailingList` field.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
                 "ofType": null
               },
               "defaultValue": null
@@ -1533,13 +1461,9 @@
               "description": "The `User` at the end of the edge.",
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "User",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1818,7 +1742,7 @@
             },
             {
               "name": "eventEdge",
-              "description": "An edge for the type. May be used by Relay 1.",
+              "description": "An edge for our `Event`. May be used by Relay 1.",
               "args": [
                 {
                   "name": "orderBy",
@@ -1943,26 +1867,6 @@
                 "ofType": null
               },
               "defaultValue": null
-            },
-            {
-              "name": "headline",
-              "description": "A headline introducing the User at a glance.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "mailingList",
-              "description": "Whether the User wants to join the mailing list.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -2012,7 +1916,7 @@
             },
             {
               "name": "userEdge",
-              "description": "An edge for the type. May be used by Relay 1.",
+              "description": "An edge for our `User`. May be used by Relay 1.",
               "args": [
                 {
                   "name": "orderBy",
